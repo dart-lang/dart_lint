@@ -38,6 +38,7 @@ import 'package:linter/src/rules/avoid_single_cascade_in_expression_statements.d
 import 'package:linter/src/rules/avoid_slow_async_io.dart';
 import 'package:linter/src/rules/avoid_types_as_parameter_names.dart';
 import 'package:linter/src/rules/avoid_types_on_closure_parameters.dart';
+import 'package:linter/src/rules/avoid_undefined_and_unnecessary_escape_sequences.dart';
 import 'package:linter/src/rules/avoid_unused_constructor_parameters.dart';
 import 'package:linter/src/rules/avoid_void_async.dart';
 import 'package:linter/src/rules/await_only_futures.dart';
@@ -175,6 +176,7 @@ void registerLintRules() {
     ..register(new AvoidSingleCascadeInExpressionStatements())
     ..register(new AvoidSlowAsyncIo())
     ..register(new AvoidTypesAsParameterNames())
+    ..register(new AvoidUndefinedAndUnnecessaryEscapeSequences())
     ..register(new AvoidUnusedConstructorParameters())
     ..register(new AvoidVoidAsync())
     ..register(new AwaitOnlyFutures())

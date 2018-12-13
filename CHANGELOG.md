@@ -1,3 +1,7 @@
+# x.y.z
+
+* new lint: `avoid_undefined_escape_sequences`
+
 # 0.1.75
 
 * analyzer package dependency bumped to `^0.34.0` 
@@ -280,7 +284,7 @@
 * fix to `directives_ordering` to work with part directives located after exports
 * fixes to `cascade_invocations` false positives
 * fixes to `literal_only_boolean_expressions` false positives
-* fix to ensure `cascade_invocations` only lints method invocations if target is a simple identifier 
+* fix to ensure `cascade_invocations` only lints method invocations if target is a simple identifier
 * fixes to `use_string_buffers` false positives
 * fixes to `prefer_const_constructors`
 
