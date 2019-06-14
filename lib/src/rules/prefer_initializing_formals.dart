@@ -131,11 +131,13 @@ class _Visitor extends SimpleAstVisitor<void> {
       final rightElement = _getRightElement(assignment);
       return leftElement != null &&
           rightElement != null &&
+          rightElement is VariableElement &&
           !leftElement.isPrivate &&
           leftElement is FieldElement &&
           !leftElement.isSynthetic &&
           leftElement.enclosingElement ==
               node.declaredElement.enclosingElement &&
+          leftElement.type == rightElement.type &&
           parameters.contains(rightElement) &&
           (!parametersUsedMoreThanOnce.contains(rightElement) &&
                   !(rightElement as ParameterElement).isNamed ||
@@ -145,14 +147,15 @@ class _Visitor extends SimpleAstVisitor<void> {
     bool isConstructorFieldInitializerToLint(
         ConstructorFieldInitializer constructorFieldInitializer) {
       final expression = constructorFieldInitializer.expression;
-      return !(constructorFieldInitializer.fieldName.staticElement?.isPrivate ??
-              true) &&
+      final FieldElement fieldElement =
+          constructorFieldInitializer.fieldName.staticElement;
+      return !(fieldElement?.isPrivate ?? true) &&
           expression is SimpleIdentifier &&
+          fieldElement.type == expression.staticType &&
           parameters.contains(expression.staticElement) &&
           (!parametersUsedMoreThanOnce.contains(expression.staticElement) &&
                   !(expression.staticElement as ParameterElement).isNamed ||
-              (constructorFieldInitializer.fieldName.staticElement?.name ==
-                  expression.staticElement.name));
+              (fieldElement?.name == expression.staticElement.name));
     }
 
     void processElement(Element element) {
