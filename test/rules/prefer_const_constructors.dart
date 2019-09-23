@@ -4,6 +4,7 @@
 
 // test w/ `pub run test -N prefer_const_constructors`
 
+//ignore_for_file: unnecessary_new
 
 /// Inlined for testing.
 library meta;
@@ -51,6 +52,7 @@ class C {
 C foo(int x) => new C(x); // OK
 C bar() => const C(5); // OK
 C baz() => new C(5); // LINT
+C baz2() => C(5); // LINT [13:1]
 
 void objectId() {
   Object id = new Object(); // OK
