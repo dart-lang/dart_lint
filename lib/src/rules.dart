@@ -57,6 +57,7 @@ import 'package:linter/src/rules/directives_ordering.dart';
 import 'package:linter/src/rules/empty_catches.dart';
 import 'package:linter/src/rules/empty_constructor_bodies.dart';
 import 'package:linter/src/rules/empty_statements.dart';
+import 'package:linter/src/rules/ffi.dart';
 import 'package:linter/src/rules/file_names.dart';
 import 'package:linter/src/rules/flutter_style_todos.dart';
 import 'package:linter/src/rules/hash_and_equals.dart';
@@ -212,6 +213,7 @@ void registerLintRules() {
     ..register(EmptyCatches())
     ..register(EmptyConstructorBodies())
     ..register(EmptyStatements())
+    ..register(Ffi())
     ..register(FileNames())
     ..register(FlutterStyleTodos())
     ..register(HashAndEquals())

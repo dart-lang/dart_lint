@@ -52,6 +52,7 @@ directives_ordering: 0.1.30
 empty_catches: 0.1.22
 empty_constructor_bodies: 0.1.1
 empty_statements: 0.1.21
+ffi: 0.1.98
 file_names: 0.1.54
 flutter_style_todos: 0.1.61
 hash_and_equals: 0.1.11

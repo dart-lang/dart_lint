@@ -22,6 +22,7 @@ const Map<String, LibraryInfo> libraries = const {
   "collection": const LibraryInfo("collection/collection.dart"),
   "convert": const LibraryInfo("convert/convert.dart"),
   "core": const LibraryInfo("core/core.dart"),
+  "ffi": const LibraryInfo("ffi/ffi.dart"),
   "io": const LibraryInfo("io/io.dart'"),
   "html": const LibraryInfo(
     "html/dartium/html_dartium.dart",
@@ -147,7 +148,7 @@ abstract class Map<K, V> extends Object {
   factory Map.fromIterable(Iterable iterable,
       {K key(element), V value(element)}) = LinkedHashMap<K, V>.fromIterable;
   factory Map.fromIterables(Iterable<K> keys, Iterable<V> values) =
-      LinkedHashMap<K, V>.fromIterables;    
+      LinkedHashMap<K, V>.fromIterables;
   factory Map.of(Map<K, V> other) = LinkedHashMap<K, V>.of;
   factory Map.identity() = LinkedHashMap<K, V>.identity;
   /* external */ factory Map.unmodifiable(Map other);
@@ -204,6 +205,25 @@ part of dart.async;
 ''')
   ]);
 
+  static _MockSdkLibrary LIB_FFI =
+      _MockSdkLibrary('dart:ffi', '/lib/ffi/ffi.dart', '''
+library dart.ffi;
+class NativeType {}
+class Void extends NativeType {}
+class Int8 extends NativeType {}
+class Uint8 extends NativeType {}
+class Int16 extends NativeType {}
+class Uint16 extends NativeType {}
+class Int32 extends NativeType {}
+class Uint32 extends NativeType {}
+class Int64 extends NativeType {}
+class Uint64 extends NativeType {}
+class Float extends NativeType {}
+class Double extends NativeType {}
+class Pointer<T extends NativeType> extends NativeType {}
+class Struct<S extends NativeType> extends NativeType {}
+    ''');
+
   static _MockSdkLibrary LIB_COLLECTION =
       _MockSdkLibrary('dart:collection', '/lib/collection/collection.dart', '''
 library dart.collection;
@@ -218,7 +238,7 @@ abstract class LinkedHashMap<K, V> implements Map<K, V> {
   factory LinkedHashMap.from(Map other);
   factory LinkedHashMap.fromIterable(Iterable iterable,
       {K key(element), V value(element)});
-  factory LinkedHashMap.fromIterables(Iterable<K> keys, Iterable<V> values);    
+  factory LinkedHashMap.fromIterables(Iterable<K> keys, Iterable<V> values);
   factory LinkedHashMap.of(Map<K, V> other) =>
     new LinkedHashMap<K, V>()..addAll(other);
 }
@@ -229,7 +249,7 @@ class LinkedHashSet<E> implements Set<E> {
       bool isValidKey(potentialKey)});
   /* external factory */ LinkedHashSet.identity();
   factory LinkedHashSet.from(Iterable elements);
-  
+
   factory LinkedHashSet.of(Iterable<E> elements) =>
       new LinkedHashSet<E>()..addAll(elements);
 }
@@ -339,6 +359,7 @@ class  ScriptElement {
     LIB_ASYNC,
     LIB_COLLECTION,
     LIB_CONVERT,
+    LIB_FFI,
     LIB_IO,
     LIB_MATH,
     LIB_HTML,
@@ -460,6 +481,7 @@ class  ScriptElement {
       'dart:async/stream.dart': '/lib/async/stream.dart',
       'dart:collection': '/lib/collection/collection.dart',
       'dart:convert': '/lib/convert/convert.dart',
+      'dart:ffi': '/lib/ffi/ffi.dart',
       'dart:io': '/lib/io/io.dart',
       'dart:math': '/lib/math/math.dart'
     };
