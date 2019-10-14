@@ -11,6 +11,7 @@ import 'package:linter/src/rules/always_specify_types.dart';
 import 'package:linter/src/rules/annotate_overrides.dart';
 import 'package:linter/src/rules/avoid_annotating_with_dynamic.dart';
 import 'package:linter/src/rules/avoid_as.dart';
+import 'package:linter/src/rules/avoid_async_from_sync.dart';
 import 'package:linter/src/rules/avoid_bool_literals_in_conditional_expressions.dart';
 import 'package:linter/src/rules/avoid_catches_without_on_clauses.dart';
 import 'package:linter/src/rules/avoid_catching_errors.dart';
@@ -291,6 +292,7 @@ void registerLintRules() {
     ..register(TypeAnnotatePublicApis())
     ..register(TypeInitFormals())
     ..register(UnawaitedFutures())
+    ..register(AvoidAsyncFromSync())
     ..register(UnnecessaryAwaitInReturn())
     ..register(UnnecessaryBraceInStringInterps())
     ..register(UnnecessaryConst())
