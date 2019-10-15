@@ -34,6 +34,9 @@ bool isIdentifier(String name) => _identifier.hasMatch(name);
 /// Returns `true` of the given [name] is composed only of `_`s.
 bool isJustUnderscores(String name) => _underscores.hasMatch(name);
 
+/// Returns `true` if the given [name] has leading `_`.
+bool hasLeadingUnderscore(String name) => name.startsWith('_');
+
 /// Returns `true` if this [id] is `lowerCamelCase`.
 bool isLowerCamelCase(String id) =>
     id.length == 1 && isUpperCase(id.codeUnitAt(0)) ||

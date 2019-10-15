@@ -23,6 +23,8 @@ import 'package:linter/src/rules/avoid_function_literals_in_foreach_calls.dart';
 import 'package:linter/src/rules/avoid_implementing_value_types.dart';
 import 'package:linter/src/rules/avoid_init_to_null.dart';
 import 'package:linter/src/rules/avoid_js_rounded_ints.dart';
+import 'package:linter/src/rules/avoid_leading_underscore_for_library_prefixes.dart';
+import 'package:linter/src/rules/avoid_leading_underscore_for_local_identifiers.dart';
 import 'package:linter/src/rules/avoid_null_checks_in_equality_operators.dart';
 import 'package:linter/src/rules/avoid_positional_boolean_parameters.dart';
 import 'package:linter/src/rules/avoid_print.dart';
@@ -179,6 +181,8 @@ void registerLintRules() {
     ..register(AvoidImplementingValueTypes())
     ..register(AvoidInitToNull())
     ..register(AvoidJsRoundedInts())
+    ..register(AvoidLeadingUnderscoreForLibraryPrefixes())
+    ..register(AvoidLeadingUnderscoreForLocalIdentifiers())
     ..register(AvoidNullChecksInEqualityOperators())
     ..register(AvoidOperatorEqualsOnMutableClasses())
     ..register(AvoidPositionalBooleanParameters())
