@@ -68,7 +68,7 @@ void someFunction7_1() {
 void someFunction8() {
   List<DerivedClass2> list = <DerivedClass2>[];
   DerivedClass3 instance;
-  if (list.contains(instance)) print('someFunction8'); // OK
+  if (list.contains(instance)) print('someFunction8'); // LINT
 }
 
 void someFunction9() {
@@ -182,4 +182,30 @@ abstract class MyIterableMixedClass extends Object
     implements Iterable<int> {
   bool myConcreteBadMethod(String thing) => this.contains(thing); // LINT
   bool myConcreteBadMethod1(String thing) => contains(thing); // LINT
+}
+
+abstract class MixinEq {
+  @override
+  operator ==(Object o) => false;
+}
+
+class DerivedClass6 extends ClassBase with MixinEq {}
+
+class DerivedClass7 extends ClassBase implements MixinEq {}
+
+class DerivedClass8 extends ClassBase {
+  @override
+  operator ==(Object o) => false;
+}
+
+void removeEqMixin(Iterable<DerivedClass2> list, DerivedClass6 o) {
+  list.contains(o); // OK
+}
+
+void removeEqImplements(Iterable<DerivedClass2> list, DerivedClass7 o) {
+  list.contains(o); // LINT
+}
+
+void removeEq(Iterable<DerivedClass8> list, ClassBase o) {
+  list.contains(o); // OK
 }

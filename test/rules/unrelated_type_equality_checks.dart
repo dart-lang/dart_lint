@@ -89,7 +89,7 @@ void someFunction12(Mixin instance) {
 void someFunction13(DerivedClass2 instance) {
   var other = new DerivedClass3();
 
-  if (other == instance) print('someFunction13'); // OK
+  if (other == instance) print('someFunction13'); // LINT
 }
 
 void someFunction14(DerivedClass4 instance) {

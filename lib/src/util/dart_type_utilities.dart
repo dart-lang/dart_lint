@@ -458,8 +458,12 @@ class DartTypeUtilities {
         // Otherwise, they might be related.
         return false;
       } else {
-        return leftElement.supertype?.isObject == true ||
-            leftElement.supertype != rightElement.supertype;
+        return [leftElement, rightElement].every((element) {
+          var eqClass = element
+              .lookUpConcreteMethod('==', element.library)
+              .enclosingElement;
+          return eqClass is ClassElement && eqClass.isDartCoreObject;
+        });
       }
     } else if (leftType is TypeParameterType &&
         rightType is TypeParameterType) {

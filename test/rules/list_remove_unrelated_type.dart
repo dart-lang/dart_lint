@@ -68,7 +68,7 @@ void someFunction7_1() {
 void someFunction8() {
   List<DerivedClass2> list = <DerivedClass2>[];
   DerivedClass3 instance;
-  if (list.remove(instance)) print('someFunction8'); // OK
+  if (list.remove(instance)) print('someFunction8'); // LINT
 }
 
 void someFunction9() {
@@ -171,4 +171,30 @@ abstract class MyListMixedClass extends Object
     implements List<int> {
   bool myConcreteBadMethod(String thing) => this.remove(thing); // LINT
   bool myConcreteBadMethod1(String thing) => remove(thing); // LINT
+}
+
+abstract class MixinEq {
+  @override
+  operator ==(Object o) => false;
+}
+
+class DerivedClass6 extends ClassBase with MixinEq {}
+
+class DerivedClass7 extends ClassBase implements MixinEq {}
+
+class DerivedClass8 extends ClassBase {
+  @override
+  operator ==(Object o) => false;
+}
+
+void removeEqMixin(List<DerivedClass2> list, DerivedClass6 o) {
+  list.remove(o); // OK
+}
+
+void removeEqImplements(List<DerivedClass2> list, DerivedClass7 o) {
+  list.remove(o); // LINT
+}
+
+void removeEq(List<DerivedClass8> list, ClassBase o) {
+  list.remove(o); // OK
 }
