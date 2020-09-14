@@ -64,6 +64,7 @@ import 'rules/do_not_use_environment.dart';
 import 'rules/empty_catches.dart';
 import 'rules/empty_constructor_bodies.dart';
 import 'rules/empty_statements.dart';
+import 'rules/end_doc_paragraphs_with_punctuation.dart';
 import 'rules/exhaustive_cases.dart';
 import 'rules/file_names.dart';
 import 'rules/flutter_style_todos.dart';
@@ -245,6 +246,7 @@ void registerLintRules() {
     ..register(EmptyCatches())
     ..register(EmptyConstructorBodies())
     ..register(EmptyStatements())
+    ..register(EndDocParagraphsWithPunctuation())
     ..register(ExhaustiveCases())
     ..register(FileNames())
     ..register(FlutterStyleTodos())

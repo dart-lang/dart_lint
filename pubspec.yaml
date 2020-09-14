@@ -15,8 +15,10 @@ dependencies:
   analyzer: ^0.40.0
   args: '>=1.4.0 <2.0.0'
   charcode: ^1.0.0
+  dartdoc: ^0.32.1
   glob: ^1.0.3
   http: ^0.12.0
+  markdown: ^2.1.5
   meta: ^1.0.2
   path: ^1.2.0
   source_span: ^1.0.2
@@ -30,7 +32,6 @@ dev_dependencies:
     path: test/mock_packages/fixnum
   github: '>=6.0.5 <8.0.0'
   grinder: ^0.8.0
-  markdown: ^2.0.0
   matcher: ^0.12.0
   pedantic: ^1.6.0
   pub_semver: ^1.4.2
