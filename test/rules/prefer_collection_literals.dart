@@ -10,7 +10,7 @@ import 'dart:collection';
 void main() {
   var listToLint = new List(); //LINT
   var mapToLint = new Map(); // LINT
-  var LinkedHashMapToLint = new LinkedHashMap(); // LINT
+  var linkedHashMapToLint = new LinkedHashMap(); // LINT
 
   var m1 = Map.unmodifiable({}); //OK
   var m2 = Map.fromIterable([]); //OK
@@ -50,31 +50,42 @@ void main() {
 
   Set<int> ss5 = LinkedHashSet<int>(); // LINT
   LinkedHashSet<int> ss6 = LinkedHashSet<int>(); // OK
+  ss6 = LinkedHashSet(); // OK
+  ss6 = null ?? LinkedHashSet(); // OK
 
   printSet(Set()); // LINT
   printSet(LinkedHashSet<int>()); // LINT
   printHashSet(LinkedHashSet<int>()); // OK
+  printHashSetNamedArgument(ids: LinkedHashSet<int>()); // OK
 
   Set<int> ss7 = LinkedHashSet.from([1, 2, 3]); // LINT
-  LinkedHashSet<int> ss8 =  LinkedHashSet.from([1, 2, 3]); // OK
+  LinkedHashSet<int> ss8 = LinkedHashSet.from([1, 2, 3]); // OK
 
   Iterable iter = Iterable.empty(); // OK
   var sss = Set.from(iter); // OK
 
-  LinkedHashSet<String> sss1 = <int, LinkedHashSet<String>>{}.putIfAbsent(3, () => LinkedHashSet<String>()); // OK
+  LinkedHashSet<String> sss1 = <int, LinkedHashSet<String>>{}
+      .putIfAbsent(3, () => LinkedHashSet<String>()); // OK
 
-  var lhs = LinkedHashSet(equals: (a, b) => false, hashCode: (o) => 13)..addAll({}); // OK
+  var lhs = LinkedHashSet(equals: (a, b) => false, hashCode: (o) => 13)
+    ..addAll({}); // OK
 
   LinkedHashMap hashMap = LinkedHashMap(); // OK
+  hashMap = LinkedHashMap(); // OK
+  hashMap = null ?? LinkedHashMap(); // OK
 
   printMap(Map()); // LINT
   printMap(LinkedHashMap<int, int>()); // LINT
   printHashMap(LinkedHashMap<int, int>()); // OK
+  printHashMapNamedArgument(map: LinkedHashMap<int, int>()); // OK
 
-  LinkedHashMap<String, String> lhm = <int, LinkedHashMap<String,String>>{}.putIfAbsent(3, () => LinkedHashMap<String, String>()); // OK
+  LinkedHashMap<String, String> lhm = <int, LinkedHashMap<String, String>>{}
+      .putIfAbsent(3, () => LinkedHashMap<String, String>()); // OK
 }
 
 void printSet(Set<int> ids) => print('$ids!');
 void printHashSet(LinkedHashSet<int> ids) => printSet(ids);
+void printHashSetNamedArgument({LinkedHashSet<int> ids}) => printSet(ids);
 void printMap(Map map) => print('$map!');
 void printHashMap(LinkedHashMap map) => printMap(map);
+void printHashMapNamedArgument({LinkedHashMap<int, int> map}) => printMap(map);

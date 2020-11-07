@@ -42,7 +42,7 @@ will trigger a type error so those will be excluded from the lint.
 void main() {
   LinkedHashSet<int> linkedHashSet =  LinkedHashSet.from([1, 2, 3]); // OK
   LinkedHashMap linkedHashMap = LinkedHashMap(); // OK
-  
+
   printSet(LinkedHashSet<int>()); // LINT
   printHashSet(LinkedHashSet<int>()); // OK
 
@@ -142,35 +142,35 @@ class _Visitor extends SimpleAstVisitor<void> {
 
   bool _shouldSkipLinkedHashLint(
       InstanceCreationExpression node, bool Function(DartType node) typeCheck) {
-    if (_isHashMap(node) || _isHashSet(node)) {
-      // Skip: LinkedHashSet<int> s =  ...; or LinkedHashMap<int> s =  ...;
-      var parent = node.parent;
-      if (parent is VariableDeclaration) {
-        var parent2 = parent.parent;
-        if (parent2 is VariableDeclarationList) {
-          var assignmentType = parent2.type?.type;
-          if (assignmentType != null && !typeCheck(assignmentType)) {
-            return true;
-          }
-        }
-      }
-      // Skip: function(LinkedHashSet()); when function(LinkedHashSet mySet) or
-      // function(LinkedHashMap()); when function(LinkedHashMap myMap)
-      if (parent is ArgumentList) {
-        final paramType = parent.arguments.first.staticParameterElement?.type;
-        if (paramType != null && !typeCheck(paramType)) {
-          return true;
-        }
-      }
-      // Skip: <int, LinkedHashSet>{}.putIfAbsent(3, () => LinkedHashSet());
-      // or <int, LinkedHashMap>{}.putIfAbsent(3, () => LinkedHashMap());
-      if (parent is ExpressionFunctionBody) {
-        var expressionType = parent.expression.staticType;
-        if (expressionType != null && !typeCheck(expressionType)) {
-          return true;
-        }
-      }
-    }
-    return false;
+    if (!_isHashMap(node) && !_isHashSet(node)) return false;
+    var parent = node.parent;
+    var staticType = _enforcedType(parent);
+    return staticType != null && !typeCheck(staticType);
   }
+}
+
+/// Returns the static type which is pushed into an expression by it's parent.
+DartType /*?*/ _enforcedType(AstNode parent) {
+  if (parent is VariableDeclaration) {
+    var parent2 = parent.parent;
+    if (parent2 is VariableDeclarationList) {
+      return parent2.type?.type;
+    }
+  }
+  if (parent is ArgumentList) {
+    return parent.arguments.first.staticParameterElement?.type;
+  }
+  if (parent is NamedExpression) {
+    return parent.staticType;
+  }
+  if (parent is ExpressionFunctionBody) {
+    return parent.expression.staticType;
+  }
+  if (parent is AssignmentExpression) {
+    return parent.leftHandSide.staticType;
+  }
+  if (parent is BinaryExpression) {
+    return parent.staticType;
+  }
+  return null;
 }

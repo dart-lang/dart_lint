@@ -1,3 +1,7 @@
+# 0.1.125-dev
+
+* fixed false positives in `prefer_colleciton_literals`.
+
 # 0.1.124
 
 * fixed false positives in `prefer_constructors_over_static_methods`
