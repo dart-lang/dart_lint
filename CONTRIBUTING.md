@@ -8,6 +8,8 @@ Contributing to the Linter
 Want to contribute? Great! First, read this page (including the small print at
 the end).
 
+_Looking for how to actually [write a lint rule](doc/WritingLints.MD)?_
+
 ### Before you contribute
 
 _See also: [Dart's code of conduct](https://dart.dev/code-of-conduct)_
@@ -50,7 +52,8 @@ To start working on a patch:
 
  * `git fetch upstream`
  * `git checkout upstream/master -b name_of_your_branch`
- * Hack away.  (Before committing, please be sure and run `dartfmt` on modified files; our build will fail if you don't!)
+ * Hack away. How to actually write and test a lint is covered [here](doc/WritingLints.MD).
+   * **Before committing, please be sure and run `dartfmt` on modified files; our build will fail if you don't!**
  * `git commit -a -m "<your informative commit message>"`
  * `git push origin name_of_your_branch`
 
@@ -58,8 +61,8 @@ To send us a pull request:
 
  * `git pull-request` (if you are using [Hub](https://github.com/github/hub/)) or
   go to `https://github.com/dart-lang/linter` and click the
-  "Compare & pull request" button
- * either explicitly name a reviewer in the github UI or add their github name in the pull request message body
+  "Compare & pull request" button.
+ * Either explicitly name a reviewer in the github UI or add their github name in the pull request message body.
 
 Please make sure all your checkins have detailed commit messages explaining the patch and if a PR is *not* ready to land, consider making it clear in the description and/or prefixing the title with "WIP".
 

@@ -12,7 +12,9 @@ analysis server and the `dartanalyzer` commandline tool.
 
 The linter is bundled with the Dart [SDK](https://dart.dev/tools/sdk); if you have an updated Dart SDK already, you're done!
 
-Alternatively, if you want to contribute to the linter or examine the source, clone the `linter` repo like this:
+Alternatively, if you want to contribute to the linter, read the [contribution guidelines](CONTRIBUTING.md) for how to fork the repo to your own account and clone it from there.
+
+If you're just interested in examining the source, you can clone this repo directly:
 
     $ git clone https://github.com/dart-lang/linter.git
 
