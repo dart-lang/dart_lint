@@ -185,3 +185,4 @@ linter:
     - use_to_and_as_if_applicable
     - valid_regexps
     - void_checks
+    - weak_mode_unnecessary_null_checks
