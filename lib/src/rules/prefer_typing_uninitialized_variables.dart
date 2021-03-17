@@ -85,7 +85,7 @@ class _Visitor extends SimpleAstVisitor<void> {
     }
 
     node.variables.forEach((v) {
-      if (v.initializer == null) {
+      if (v.initializer == null && v.declaredElement.type.isDynamic) {
         rule.reportLint(v);
       }
     });
