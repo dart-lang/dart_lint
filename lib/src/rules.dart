@@ -72,6 +72,7 @@ import 'rules/empty_statements.dart';
 import 'rules/exhaustive_cases.dart';
 import 'rules/file_names.dart';
 import 'rules/flutter_style_todos.dart';
+import 'rules/function_expression_with_incorrect_types.dart';
 import 'rules/hash_and_equals.dart';
 import 'rules/implementation_imports.dart';
 import 'rules/invariant_booleans.dart';
@@ -269,6 +270,7 @@ void registerLintRules({bool inTestMode = false}) {
     ..register(ExhaustiveCases())
     ..register(FileNames())
     ..register(FlutterStyleTodos())
+    ..register(FunctionExpressionWithIncorrectTypes())
     ..register(HashAndEquals())
     ..register(ImplementationImports())
     ..register(InvariantBooleans())

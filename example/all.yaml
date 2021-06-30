@@ -70,6 +70,7 @@ linter:
     - exhaustive_cases
     - file_names
     - flutter_style_todos
+    - function_expression_with_incorrect_types
     - hash_and_equals
     - implementation_imports
     - invariant_booleans
