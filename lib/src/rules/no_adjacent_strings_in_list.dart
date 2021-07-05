@@ -11,9 +11,9 @@ const _desc = r"Don't use adjacent strings in list.";
 
 const _details = r'''
 
-**DON'T** use adjacent strings in list.
+**DON'T** use adjacent strings in a list.
 
-This can be sign of forgotten comma.
+This can indicate a forgotten comma.
 
 **GOOD:**
 ```dart
@@ -47,6 +47,8 @@ class NoAdjacentStringsInList extends LintRule implements NodeLintRule {
   void registerNodeProcessors(
       NodeLintRegistry registry, LinterContext context) {
     var visitor = _Visitor(this);
+    registry.addForElement(this, visitor);
+    registry.addIfElement(this, visitor);
     registry.addListLiteral(this, visitor);
   }
 }
@@ -55,6 +57,20 @@ class _Visitor extends SimpleAstVisitor<void> {
   final LintRule rule;
 
   _Visitor(this.rule);
+
+  @override
+  void visitForElement(ForElement node) {
+    if (node.body is AdjacentStrings) {
+      rule.reportLint(node.body);
+    }
+  }
+
+  @override
+  void visitIfElement(IfElement node) {
+    if (node.thenElement is AdjacentStrings) {
+      rule.reportLint(node.thenElement);
+    }
+  }
 
   @override
   void visitListLiteral(ListLiteral node) {
