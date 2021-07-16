@@ -10,6 +10,7 @@ import '../analyzer.dart';
 const _desc = r'Prefer if elements to conditional expressions where possible.';
 
 const _details = r'''
+
 When building collections, it is preferable to use `if` elements rather than
 conditionals.
 

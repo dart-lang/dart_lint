@@ -10,6 +10,7 @@ import '../analyzer.dart';
 const _desc = "Don't use `final` for local variables.";
 
 const _details = r'''
+
 **DON'T** use `final` for local variables.
 
 `var` is shorter, and `final` does not change the meaning of the code.

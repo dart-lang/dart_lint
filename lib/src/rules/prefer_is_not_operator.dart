@@ -11,6 +11,7 @@ import '../analyzer.dart';
 const _desc = r'Prefer is! operator.';
 
 const _details = r'''
+
 When checking if an object is not of a specified type, it is preferable to use the 'is!' operator.
 
 **BAD:**

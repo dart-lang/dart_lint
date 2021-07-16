@@ -12,6 +12,7 @@ import '../ast.dart';
 const _desc = r'Prefer putting asserts in initializer list.';
 
 const _details = r'''
+
 **DO** put asserts in initializer list for constructors with only asserts in
 their body.
 

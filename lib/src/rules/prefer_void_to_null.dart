@@ -12,7 +12,7 @@ const _desc =
 
 const _details = r'''
 
-**DO NOT** use the type Null where void would work.
+**DON'T** use the type Null where void would work.
 
 **BAD:**
 ```dart

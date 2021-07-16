@@ -15,6 +15,7 @@ import '../util/flutter_utils.dart';
 const _desc = r'DO reference all public properties in debug methods.';
 
 const _details = r'''
+
 **DO** reference all public properties in `debug` method implementations.
 
 Implementers of `Diagnosticable` should reference all public properties in

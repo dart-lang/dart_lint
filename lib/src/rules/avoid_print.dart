@@ -11,6 +11,7 @@ import '../analyzer.dart';
 const _desc = r'Avoid `print` calls in production code.';
 
 const _details = r'''
+
 **DO** avoid `print` calls in production code.
 
 **BAD:**

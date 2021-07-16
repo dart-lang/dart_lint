@@ -10,6 +10,7 @@ import '../analyzer.dart';
 const _desc = r'Do not use environment declared variables.';
 
 const _details = r'''
+
 Using values derived from the environment at compile-time, creates
 hidden global state and makes applications hard to understand and maintain.
 

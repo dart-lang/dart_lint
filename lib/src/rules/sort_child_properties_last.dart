@@ -11,6 +11,7 @@ import '../util/flutter_utils.dart';
 const _desc = r'Sort child properties last in widget instance creations.';
 
 const _details = r'''
+
 Sort child properties last in widget instance creations.  This improves
 readability and plays nicest with UI as Code visualization in IDEs with UI as
 Code Guides in editors (such as IntelliJ) where Properties in the correct order

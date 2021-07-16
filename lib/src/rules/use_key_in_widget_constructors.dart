@@ -14,6 +14,7 @@ import '../util/flutter_utils.dart';
 const _desc = r'Use key in widget constructors.';
 
 const _details = r'''
+
 **DO** use key in widget constructors.
 
 It's a good practice to expose the ability to provide a key when creating public

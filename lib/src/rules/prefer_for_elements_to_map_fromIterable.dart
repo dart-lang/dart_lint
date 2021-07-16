@@ -11,6 +11,7 @@ import '../analyzer.dart';
 const _desc = r'Prefer for elements when building maps from iterables.';
 
 const _details = r'''
+
 When building maps from iterables, it is preferable to use for elements.
 
 **BAD:**
