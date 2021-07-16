@@ -73,6 +73,10 @@ class _Visitor extends SimpleAstVisitor<void> {
     if (node.typeParameters != null) {
       return;
     }
+    if (node.type is TypeName) {
+      return;
+    }
+
     _countAndReport(node.name);
   }
 
