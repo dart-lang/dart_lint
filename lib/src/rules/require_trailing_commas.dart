@@ -34,10 +34,10 @@ void run() {
 }
 ```
 
-**Exception:** If the final parameter/argument is positional (vs named) and is
-either a function literal implemented using curly braces, a literal map, a
-literal set or a literal array. This exception only applies if the final
-parameter does not fit entirely on one line.
+**Exception:** If a parameter/argument is either a function literal
+implemented using curly braces, a literal map, a literal set or a literal array
+then any line break will be ignore and the expression will be treated as a
+single line expression.
 
 **Note:** This lint rule assumes `dartfmt` has been run over the code and may
 produce false positives until that has happened.
@@ -61,11 +61,11 @@ class RequireTrailingCommas extends LintRule implements NodeLintRule {
   ) {
     var visitor = _Visitor(this);
     registry
-      ..addCompilationUnit(this, visitor)
       ..addArgumentList(this, visitor)
-      ..addFormalParameterList(this, visitor)
+      ..addAssertInitializer(this, visitor)
       ..addAssertStatement(this, visitor)
-      ..addAssertInitializer(this, visitor);
+      ..addCompilationUnit(this, visitor)
+      ..addFormalParameterList(this, visitor);
   }
 }
 
@@ -91,7 +91,7 @@ class _Visitor extends SimpleAstVisitor<void> {
     _checkTrailingComma(
       node.leftParenthesis,
       node.rightParenthesis,
-      node.arguments.last,
+      node.arguments,
     );
   }
 
@@ -102,7 +102,7 @@ class _Visitor extends SimpleAstVisitor<void> {
     _checkTrailingComma(
       node.leftParenthesis,
       node.rightParenthesis,
-      node.parameters.last,
+      node.parameters,
     );
   }
 
@@ -112,7 +112,10 @@ class _Visitor extends SimpleAstVisitor<void> {
     _checkTrailingComma(
       node.leftParenthesis,
       node.rightParenthesis,
-      node.message ?? node.condition,
+      [
+        node.condition,
+        if (node.message != null) node.message!,
+      ],
     );
   }
 
@@ -122,17 +125,20 @@ class _Visitor extends SimpleAstVisitor<void> {
     _checkTrailingComma(
       node.leftParenthesis,
       node.rightParenthesis,
-      node.message ?? node.condition,
+      [
+        node.condition,
+        if (node.message != null) node.message!,
+      ],
     );
   }
 
   void _checkTrailingComma(
     Token leftParenthesis,
     Token rightParenthesis,
-    AstNode lastNode,
+    List<AstNode> nodes,
   ) {
     // Early exit if trailing comma is present.
-    if (lastNode.endToken.next?.type == TokenType.COMMA) return;
+    if (nodes.last.endToken.next?.type == TokenType.COMMA) return;
 
     // No trailing comma is needed if the function call or declaration, up to
     // the closing parenthesis, fits on a single line. Ensuring the left and
@@ -140,31 +146,98 @@ class _Visitor extends SimpleAstVisitor<void> {
     // the left parenthesis right after the identifier (on the same line).
     if (_isSameLine(leftParenthesis, rightParenthesis)) return;
 
-    // Check the last parameter to determine if there are any exceptions.
-    if (_shouldAllowTrailingCommaException(lastNode)) return;
-
-    rule.reportLintForToken(rightParenthesis, errorCode: _trailingCommaCode);
+    // look for unallowed line split
+    if (_hasUnallowedLineSplit(leftParenthesis, nodes)) {
+      rule.reportLintForOffset(nodes.last.end, 0,
+          errorCode: _trailingCommaCode);
+    }
   }
 
-  bool _isSameLine(Token token1, Token token2) =>
-      _lineInfo!.getLocation(token1.offset).lineNumber ==
-      _lineInfo!.getLocation(token2.offset).lineNumber;
-
-  bool _shouldAllowTrailingCommaException(AstNode lastNode) {
-    // No exceptions are allowed if the last parameter is named.
-    if (lastNode is FormalParameter && lastNode.isNamed) return false;
-
-    // No exceptions are allowed if the entire last parameter fits on one line.
-    if (_isSameLine(lastNode.beginToken, lastNode.endToken)) return false;
-
-    // Exception is allowed if the last parameter is a function literal.
-    if (lastNode is FunctionExpression && lastNode.body is BlockFunctionBody) {
-      return true;
+  // The function allow split with brackets (block of functions, list, map...)
+  // For instance, if an argument is a callback with a body, the body is ignored
+  // as it is collapsed on a single line.
+  bool _hasUnallowedLineSplit(Token leftParenthesis, List<AstNode> nodes) {
+    var argVisitor = _ArgVisitor(_lineOf, _lineOf(leftParenthesis.end));
+    for (var node in nodes) {
+      if (argVisitor.currentLine != _lineOf(node.offset)) {
+        return true;
+      }
+      node.accept(argVisitor);
+      if (argVisitor.hasUnallowedSplit) {
+        return true;
+      }
     }
-
-    // Exception is allowed if the last parameter is a set, map or list literal.
-    if (lastNode is SetOrMapLiteral || lastNode is ListLiteral) return true;
-
     return false;
+  }
+
+  int _lineOf(int offset) => _lineInfo!.getLocation(offset).lineNumber;
+
+  bool _isSameLine(Token token1, Token token2) =>
+      _lineOf(token1.offset) == _lineOf(token2.offset);
+}
+
+class _ArgVisitor extends GeneralizingAstVisitor<void> {
+  _ArgVisitor(this.lineOf, this.currentLine);
+  final int Function(int offset) lineOf;
+
+  int currentLine;
+  bool hasUnallowedSplit = false;
+
+  @override
+  void visitNode(AstNode node) {
+    if (currentLine != lineOf(node.offset)) {
+      hasUnallowedSplit = true;
+    } else {
+      super.visitNode(node);
+      if (currentLine != lineOf(node.end)) {
+        hasUnallowedSplit = true;
+      }
+    }
+  }
+
+  @override
+  void visitArgumentList(ArgumentList node) {
+    if (node.arguments.isNotEmpty &&
+        node.arguments.last.endToken.next?.type == TokenType.COMMA) {
+      currentLine = lineOf(node.end);
+      return;
+    }
+    super.visitArgumentList(node);
+  }
+
+  @override
+  void visitListLiteral(ListLiteral node) {
+    if (currentLine == lineOf(node.leftBracket.offset) &&
+        node.elements.isNotEmpty) {
+      currentLine = lineOf(node.end);
+      return;
+    }
+    currentLine = lineOf(node.leftBracket.offset);
+    super.visitListLiteral(node);
+  }
+
+  @override
+  void visitSetOrMapLiteral(SetOrMapLiteral node) {
+    if (currentLine == lineOf(node.leftBracket.offset) &&
+        node.elements.isNotEmpty) {
+      currentLine = lineOf(node.end);
+      return;
+    }
+    currentLine = lineOf(node.leftBracket.offset);
+    super.visitSetOrMapLiteral(node);
+  }
+
+  @override
+  void visitBlock(Block node) {
+    currentLine = lineOf(node.end);
+  }
+
+  @override
+  void visitStringLiteral(StringLiteral node) {
+    if (node is SingleStringLiteral && node.parent is! AdjacentStrings) {
+      currentLine = lineOf(node.end);
+      return;
+    }
+    super.visitStringLiteral(node);
   }
 }
