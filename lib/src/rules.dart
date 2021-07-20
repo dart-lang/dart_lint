@@ -143,6 +143,7 @@ import 'rules/prefer_single_quotes.dart';
 import 'rules/prefer_spread_collections.dart';
 import 'rules/prefer_typing_uninitialized_variables.dart';
 import 'rules/prefer_void_to_null.dart';
+import 'rules/prefixed_integer_literals.dart';
 import 'rules/provide_deprecation_message.dart';
 import 'rules/pub/package_names.dart';
 import 'rules/pub/sort_pub_dependencies.dart';
@@ -341,6 +342,7 @@ void registerLintRules({bool inTestMode = false}) {
     ..register(PreferSpreadCollections())
     ..register(PreferTypingUninitializedVariables())
     ..register(PreferVoidToNull())
+    ..register(PrefixedIntegerLiterals())
     ..register(ProvideDeprecationMessage())
     ..register(PublicMemberApiDocs())
     ..register(PubPackageNames())
